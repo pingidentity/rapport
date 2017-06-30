@@ -1,0 +1,87 @@
+ext.libraries = [
+	slf4j_api: 	'org.slf4j:slf4j-api:1.7.25',
+	slf4j_simple:	'org.slf4j:slf4j-simple:1.7.25',
+	junit:		'junit:junit:4.12',
+	json:		'org.glassfish:javax.json:1.0.4',
+	json_api:	'javax.json:javax.json-api:1.0',
+]
+subprojects {
+	group		= 'com.pingidentity.labs.rapport'
+	version		= '1.0.0'
+	
+	apply plugin: 'java'
+	apply plugin: 'project-report'
+	apply plugin: 'eclipse'
+	apply plugin: 'maven'
+	apply plugin: 'signing'
+	
+	sourceCompatibility = 1.8
+	configurations {
+		pegdownDoclet
+	}
+
+	task sourceJar(type: Jar) {
+		from sourceSets.main.allJava
+		classifier 'source'
+	}
+	
+	artifacts {
+		archives sourceJar
+	}
+	
+	buildscript {
+		repositories {
+			jcenter()
+			mavenCentral()
+		}
+		dependencies {
+			classpath 'com.github.ben-manes:gradle-versions-plugin:+'
+			classpath 'ch.raffael.pegdown-doclet:pegdown-doclet:1.3'
+		}
+	}
+
+	repositories {
+			jcenter()
+			mavenCentral()
+	}
+	
+	signing {
+		sign configurations.archives
+	}
+}
+
+configure(subprojects.findAll {!it.name.contains("swirlds") && it.name != "echo-application" }) {
+	uploadArchives {
+		repositories {
+			mavenDeployer {
+				repository(url: "file://localhost/tmp/repo/")
+				pom.project {
+					inceptionYear '2016'
+					url 'https://github.com/pingidentity/rapport'
+					description 'API for participating in distributed consensus systems.'
+					developers {
+						developer {
+							id 'dwaite'
+							name 'David Waite'
+							email 'dwaite@pingidentity.com'
+							organization 'Ping Identity'
+							organizationUrl 'https://www.pingidentity.com/'
+						}
+					}
+					licenses {
+						license {
+							name 'The Apache Software License, Version 2.0'
+							url 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+							distribution 'repo'
+						}
+					}
+					scm {
+						connection 'scm:git:https://github.com/pingidentity/rapport.git'
+						url 'https://github.com/pingidentity/rapport'
+					}
+				}
+				beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+			}
+		}
+	}
+}

@@ -1,0 +1,20 @@
+description = 'Rapport Bridge Implementation for monolithic server'
+apply plugin: 'findbugs'
+apply plugin: 'com.github.ben-manes.versions'
+findbugs {
+    effort = 'max'
+    reportLevel = 'low'
+}
+
+findbugsMain {
+	reports {
+    xml.enabled = false
+    html.enabled = true
+	}
+}
+
+dependencies {
+    compile project(':rapport-api')
+    compile libraries.slf4j_api
+    testCompile libraries.junit
+}

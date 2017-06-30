@@ -1,0 +1,7 @@
+{
+   "comment" : "This is a constitution for the hello app to run under the lonely backend. Since the lonwly backend has no peers and the hello application has no constitution or local configuration, this file is extremely minimal.",
+   "applicationClass" : "EchoApplication",
+   "constitution" : {},
+   "addresses": [],
+   "localConfiguration": {}
+}

@@ -1,0 +1,29 @@
+<html>
+	<head></head>
+	<body>
+		<h1>Rapport</h1>
+		<p>
+		Rapport is a Java project providing an API for participating in 
+		distributed consensus systems, as well as a SPI implementation
+		for adding new systems.
+		</p>
+		
+		<p>
+		The application API is built as a single topic message queue - 
+		a peer in the system broadcasts messages, and then receives 
+		messages in consensus order.
+		</p>
+
+		<p>
+		The system focuses on processing those messages as functions
+		which alter system state - as these messages arrive in consensus
+		order, each participant winds up having the same state.
+		</p>
+		
+		<p>
+		An application can then spin up additional threads to interact
+		with a platform object, exposing the current state and
+		dispatching new messages to (eventually) modify state
+		</p>
+	</body>
+</html>

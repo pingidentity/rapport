@@ -1,0 +1,35 @@
+description = 'Bridge Implementation using Swirlds'
+
+// Swirlds has its own platform runner (named Browser) which 
+// requires that the Jar Main-Class be set to its 'Main' protocol
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.pingidentity.labs.rapport.bridge.swirlds.SwirldGuiAdapter'
+    }
+}
+
+apply plugin: 'findbugs'
+apply plugin: 'com.github.ben-manes.versions'
+findbugs {
+    effort = 'max'
+    reportLevel = 'medium'
+}
+
+findbugsMain {
+	reports {
+	    xml.enabled = false
+	    html.enabled = true
+	}
+}
+
+dependencies {
+    compile project(':rapport-api')
+    compile files('lib/swirlds.jar')
+    compile libraries.slf4j_api
+    testCompile libraries.junit
+    
+    compile 'javax.validation:validation-api:1.1.0.Final'
+    compile 'javax.annotation:javax.annotation-api:1.3'
+	compile 'org.apache.logging.log4j:log4j-api:2.7'
+	compile	'org.apache.logging.log4j:log4j-core:2.7'
+}

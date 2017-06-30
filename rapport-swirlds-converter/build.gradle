@@ -1,0 +1,9 @@
+description = 'Convert constitution JSON to Swirlds configuration file'
+
+apply plugin: 'application'
+mainClassName = 'com.pingidentity.labs.rapport.bridge.swirlds.converter.Converter'
+
+dependencies {
+	compile libraries.json
+	compile project(':rapport-api')
+}
